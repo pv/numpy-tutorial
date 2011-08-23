@@ -159,3 +159,14 @@ watch:
 	    inotifywait -e modify --exclude '.*~' -r $(CURDIR) && \
 		{ make html; }; \
 	done
+
+zip: html
+	rm -rf dist
+	rm -f numpytut.zip
+	mkdir dist
+	cp -r _build/html dist/html
+	cp -a data dist/data
+	find dist/html -name '*.pdf' -print0 | xargs -0r rm
+	mkdir -p dist/solutions/avoid_peeking
+	cp solutions/*.py dist/solutions/avoid_peeking
+	cd dist && zip -r ../numpytut.zip *
