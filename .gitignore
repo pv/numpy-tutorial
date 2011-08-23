@@ -1,0 +1,7 @@
+*~
+*.bak
+*.old
+*.pyc
+*.pyo
+*.so
+/_build

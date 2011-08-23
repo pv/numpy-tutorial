@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block body %}
+  {{ body }}
+{% endblock %}
+{% block extrahead %}
+<script>
+  var index = 0;
+
+  $(window).keypress(function (event) {
+    var items = $("div.section");
+    var act = 0;
+    var keycode = 0;
+
+    if (event.keyCode) {
+      keycode = event.keyCode;
+    }
+    else {
+      keycode = event.which;
+    }
+
+    if (keycode == 39 || keycode == 102) {
+      if (index < items.size()-1) {
+        index = index + 1;
+        act = 1;
+      }
+    }
+    if (keycode == 37 || keycode == 98) {
+      if (index > 0) {
+          index = index - 1;
+          act = 1;
+      }
+    }
+    if (keycode == 114) {
+      items.removeClass("section-parent");
+      items.removeClass("section-only");
+      $("div.section").show();
+      $(".related li.rightyo").text("");
+      act = 0;
+      index = 0;
+    }
+    if (act) {
+      var item = items.slice(index, index+1);
+      items.hide();
+      items.removeClass("section-parent");
+      items.removeClass("section-only");
+      item.show();
+      item.parents().show();
+      item.parents().filter("div.section").addClass("section-parent");
+      if (item.children().slice(1, 2).hasClass("section")) {
+          item.addClass("section-only");
+      }
+      $(".related li.rightyo").text(index + "/" + (items.size()-1));
+
+      $("html,body").animate({scrollTop: 0}, 10);
+    }
+  });
+</script>
+{% endblock %}
+{%- block relbar2 %}
+<div class="related">
+  <ul>
+    <li class="rightyo">
+    </li>
+  </ul>
+</div>
+{% endblock %}
